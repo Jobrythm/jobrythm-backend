@@ -10,8 +10,8 @@
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=jobrythm-db;Database=jobrythm;Username=postgres;Password=postgres
-      - AppConfig__BaseUrl=https://api.jobrythm.com
-      - AppConfig__ClientUrl=https://app.jobrythm.com
+      - AppConfig__BaseUrl=https://api.jobrythm.aricummings.com
+      - AppConfig__ClientUrl=https://app.jobrythm.aricummings.com
     depends_on:
       - jobrythm-db
     restart: always

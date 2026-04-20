@@ -1,0 +1,6 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Buildr.Application/Buildr.Application.csproj" />
+    <Project Path="src/Buildr.Domain/Buildr.Domain.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "DBxNKLJMKwo=",
+  "success": true,
+  "projectFilePath": "/home/runner/work/buildr-backend/buildr-backend/src/Buildr.Domain/Buildr.Domain.csproj",
+  "expectedPackageFiles": [
+    "/tmp/codeql-scratch-e5577f2b429aa775/dbs/csharp/working/packages/microsoft.netcore.app.ref/10.0.5/microsoft.netcore.app.ref.10.0.5.nupkg.sha512",
+    "/tmp/codeql-scratch-e5577f2b429aa775/dbs/csharp/working/packages/microsoft.aspnetcore.app.ref/10.0.5/microsoft.aspnetcore.app.ref.10.0.5.nupkg.sha512"
+  ],
+  "logs": []
+}

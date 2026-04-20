@@ -1,0 +1,12 @@
+/home/runner/work/buildr-backend/buildr-backend/src/Buildr.Domain/bin/Debug/net10.0/Buildr.Domain.deps.json
+/home/runner/work/buildr-backend/buildr-backend/src/Buildr.Domain/bin/Debug/net10.0/Buildr.Domain.dll
+/home/runner/work/buildr-backend/buildr-backend/src/Buildr.Domain/bin/Debug/net10.0/Buildr.Domain.pdb
+/home/runner/work/buildr-backend/buildr-backend/src/Buildr.Domain/obj/Debug/net10.0/Buildr.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/home/runner/work/buildr-backend/buildr-backend/src/Buildr.Domain/obj/Debug/net10.0/Buildr.Domain.AssemblyInfoInputs.cache
+/home/runner/work/buildr-backend/buildr-backend/src/Buildr.Domain/obj/Debug/net10.0/Buildr.Domain.AssemblyInfo.cs
+/home/runner/work/buildr-backend/buildr-backend/src/Buildr.Domain/obj/Debug/net10.0/Buildr.Domain.csproj.CoreCompileInputs.cache
+/home/runner/work/buildr-backend/buildr-backend/src/Buildr.Domain/obj/Debug/net10.0/Buildr.Domain.sourcelink.json
+/home/runner/work/buildr-backend/buildr-backend/src/Buildr.Domain/obj/Debug/net10.0/Buildr.Domain.dll
+/home/runner/work/buildr-backend/buildr-backend/src/Buildr.Domain/obj/Debug/net10.0/refint/Buildr.Domain.dll
+/home/runner/work/buildr-backend/buildr-backend/src/Buildr.Domain/obj/Debug/net10.0/Buildr.Domain.pdb
+/home/runner/work/buildr-backend/buildr-backend/src/Buildr.Domain/obj/Debug/net10.0/ref/Buildr.Domain.dll

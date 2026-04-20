@@ -1,0 +1,33 @@
+﻿services:
+  jobrythm-api:
+    image: jobrythm-api:latest
+    build:
+      context: .
+      dockerfile: src/Jobrythm.Api/Dockerfile
+    container_name: jobrythm-api
+    ports:
+      - "5000:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=jobrythm-db;Database=jobrythm;Username=postgres;Password=postgres
+      - AppConfig__BaseUrl=https://api.jobrythm.com
+      - AppConfig__ClientUrl=https://app.jobrythm.com
+    depends_on:
+      - jobrythm-db
+    restart: always
+
+  jobrythm-db:
+    image: postgres:17-alpine
+    container_name: jobrythm-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=jobrythm
+    ports:
+      - "5432:5432"
+    volumes:
+      - jobrythm-db-data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  jobrythm-db-data:

@@ -1,0 +1,14 @@
+﻿.git/
+.idea/
+.vs/
+.vscode/
+bin/
+obj/
+*.user
+*.lock.json
+*.cache
+*.pdb
+*.suo
+publish/
+out/
+docker-compose.override.yml

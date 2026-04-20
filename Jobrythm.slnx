@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/Jobrythm.Api/Jobrythm.Api.csproj" />
     <Project Path="src/Jobrythm.Application/Jobrythm.Application.csproj" />
     <Project Path="src/Jobrythm.Domain/Jobrythm.Domain.csproj" />
   </Folder>

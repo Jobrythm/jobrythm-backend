@@ -1,34 +1,26 @@
-﻿# Use the official .NET SDK image for building
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build-env
+﻿FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS base
+USER $APP_UID
 WORKDIR /app
-
-# Copy solution and project files first to leverage Docker layer caching
-COPY Jobrythm.slnx ./
-COPY src/Jobrythm.Domain/Jobrythm.Domain.csproj src/Jobrythm.Domain/
-COPY src/Jobrythm.Application/Jobrythm.Application.csproj src/Jobrythm.Application/
-COPY src/Jobrythm.Api/Jobrythm.Api.csproj src/Jobrythm.Api/
-
-# Restore dependencies
-RUN dotnet restore
-
-# Copy the rest of the source code
-COPY src/ ./src/
-
-# Build and publish the API project
-WORKDIR /app/src/Jobrythm.Api
-RUN dotnet publish -c Release -o /app/publish
-
-# Use the official .NET ASP.NET runtime image for the final stage
-FROM mcr.microsoft.com/dotnet/aspnet:10.0
-WORKDIR /app
-COPY --from=build-env /app/publish .
-
-# Expose the port the app runs on
 EXPOSE 8080
+EXPOSE 8081
 
-# Set environment variables if needed
-ENV ASPNETCORE_URLS=http://+:8080
-ENV AppConfig__BaseUrl=https://api.jobrythm.com
-ENV AppConfig__ClientUrl=https://app.jobrythm.com
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["src/Jobrythm.Api/Jobrythm.Api.csproj", "src/Jobrythm.Api/"]
+COPY ["src/Jobrythm.Application/Jobrythm.Application.csproj", "src/Jobrythm.Application/"]
+COPY ["src/Jobrythm.Domain/Jobrythm.Domain.csproj", "src/Jobrythm.Domain/"]
+COPY ["src/Jobrythm.Infrastructure/Jobrythm.Infrastructure.csproj", "src/Jobrythm.Infrastructure/"]
+RUN dotnet restore "src/Jobrythm.Api/Jobrythm.Api.csproj"
+COPY . .
+WORKDIR "/src/src/Jobrythm.Api"
+RUN dotnet build "Jobrythm.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "Jobrythm.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Jobrythm.Api.dll"]

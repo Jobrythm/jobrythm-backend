@@ -22,9 +22,10 @@ public class Job : BaseEntity
     public Quote? Quote { get; set; }
     public Invoice? Invoice { get; set; }
 
-    public decimal TotalCost => LineItems.Sum(li => li.TotalCost);
-    public decimal TotalRevenue => LineItems.Sum(li => li.TotalPrice);
+    public long TotalCost => LineItems.Sum(li => li.TotalCost);
+    public long TotalRevenue => LineItems.Sum(li => li.TotalPrice);
+    public long MarginAmount => TotalRevenue - TotalCost;
     public decimal MarginPercent => TotalRevenue == 0
         ? 0
-        : Math.Round((TotalRevenue - TotalCost) / TotalRevenue * 100, 2);
+        : Math.Round((decimal)(TotalRevenue - TotalCost) / TotalRevenue * 100, 2);
 }

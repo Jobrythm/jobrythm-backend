@@ -6,6 +6,8 @@ public record ClientDto(
     string? Email,
     string? Phone,
     string? Address,
+    int JobCount,
+    long TotalRevenue,
     DateTime CreatedAt,
     DateTime UpdatedAt);
 

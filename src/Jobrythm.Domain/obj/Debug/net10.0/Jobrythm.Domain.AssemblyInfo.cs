@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Jobrythm.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e4ec2cb7c0c056ebe267dee91531aa49566c0bfe")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2a60fb5dce608b37c4109217516cd356c54b2f59")]
 [assembly: System.Reflection.AssemblyProductAttribute("Jobrythm.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Jobrythm.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

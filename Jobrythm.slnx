@@ -3,5 +3,10 @@
     <Project Path="src/Jobrythm.Api/Jobrythm.Api.csproj" />
     <Project Path="src/Jobrythm.Application/Jobrythm.Application.csproj" />
     <Project Path="src/Jobrythm.Domain/Jobrythm.Domain.csproj" />
+    <Project Path="src/Jobrythm.Infrastructure/Jobrythm.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Jobrythm.Application.Tests/Jobrythm.Application.Tests.csproj" />
+    <Project Path="tests/Jobrythm.Domain.Tests/Jobrythm.Domain.Tests.csproj" />
   </Folder>
 </Solution>

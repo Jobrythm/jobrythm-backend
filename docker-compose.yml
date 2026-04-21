@@ -10,10 +10,14 @@
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=jobrythm-db;Database=jobrythm;Username=postgres;Password=postgres
-      - AppConfig__BaseUrl=https://api.jobrythm.aricummings.com
-      - AppConfig__ClientUrl=https://app.jobrythm.aricummings.com
+      - JwtSettings__Key=A_VERY_SECRET_KEY_THAT_IS_LONG_ENOUGH_FOR_HMACSHA256
+      - JwtSettings__Issuer=https://api.jobrythm.com
+      - JwtSettings__Audience=https://app.jobrythm.com
+      - AppConfig__BaseUrl=https://api.jobrythm.com
+      - AppConfig__ClientUrl=https://app.jobrythm.com
     depends_on:
-      - jobrythm-db
+      jobrythm-db:
+        condition: service_healthy
     restart: always
 
   jobrythm-db:
@@ -27,6 +31,23 @@
       - "5432:5432"
     volumes:
       - jobrythm-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d jobrythm"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: jobrythm-pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@jobrythm.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - jobrythm-db
     restart: always
 
 volumes:

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Application\\Jobrythm.Application.csproj": {}
+    "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Application/Jobrythm.Application.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Application\\Jobrythm.Application.csproj": {
+    "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Application/Jobrythm.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Application\\Jobrythm.Application.csproj",
+        "projectUniqueName": "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Application/Jobrythm.Application.csproj",
         "projectName": "Jobrythm.Application",
-        "projectPath": "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Application\\Jobrythm.Application.csproj",
-        "packagesPath": "C:\\Users\\Ari Cummings\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Application\\obj\\",
+        "projectPath": "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Application/Jobrythm.Application.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Application/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Ari Cummings\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/runner/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
@@ -26,8 +26,8 @@
           "net10.0": {
             "targetAlias": "net10.0",
             "projectReferences": {
-              "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Domain\\Jobrythm.Domain.csproj": {
-                "projectPath": "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Domain\\Jobrythm.Domain.csproj"
+              "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Domain/Jobrythm.Domain.csproj": {
+                "projectPath": "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Domain/Jobrythm.Domain.csproj"
               }
             }
           }
@@ -89,7 +89,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.201/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.CSharp": "(,4.7.32767]",
             "Microsoft.VisualBasic": "(,10.4.32767]",
@@ -367,17 +367,17 @@
         }
       }
     },
-    "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Domain\\Jobrythm.Domain.csproj": {
+    "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Domain/Jobrythm.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Domain\\Jobrythm.Domain.csproj",
+        "projectUniqueName": "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Domain/Jobrythm.Domain.csproj",
         "projectName": "Jobrythm.Domain",
-        "projectPath": "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Domain\\Jobrythm.Domain.csproj",
-        "packagesPath": "C:\\Users\\Ari Cummings\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Domain\\obj\\",
+        "projectPath": "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Domain/Jobrythm.Domain.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Domain/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Ari Cummings\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/runner/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
@@ -425,7 +425,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.201/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

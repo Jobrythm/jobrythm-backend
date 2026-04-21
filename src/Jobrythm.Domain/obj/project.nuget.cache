@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Y6EMY2Ourt0=",
+  "dgSpecHash": "T0KF9CvPqnc=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Domain\\Jobrythm.Domain.csproj",
+  "projectFilePath": "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Domain/Jobrythm.Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

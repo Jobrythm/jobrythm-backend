@@ -1125,19 +1125,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Ari Cummings\\.nuget\\packages\\": {}
+    "/home/runner/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Application\\Jobrythm.Application.csproj",
+      "projectUniqueName": "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Application/Jobrythm.Application.csproj",
       "projectName": "Jobrythm.Application",
-      "projectPath": "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Application\\Jobrythm.Application.csproj",
-      "packagesPath": "C:\\Users\\Ari Cummings\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Application\\obj\\",
+      "projectPath": "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Application/Jobrythm.Application.csproj",
+      "packagesPath": "/home/runner/.nuget/packages/",
+      "outputPath": "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Application/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Ari Cummings\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/runner/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -1149,8 +1149,8 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Domain\\Jobrythm.Domain.csproj": {
-              "projectPath": "C:\\Users\\Ari Cummings\\RiderProjects\\jobrythm-backend\\src\\Jobrythm.Domain\\Jobrythm.Domain.csproj"
+            "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Domain/Jobrythm.Domain.csproj": {
+              "projectPath": "/home/runner/work/jobrythm-backend/jobrythm-backend/src/Jobrythm.Domain/Jobrythm.Domain.csproj"
             }
           }
         }
@@ -1212,7 +1212,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.201/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",

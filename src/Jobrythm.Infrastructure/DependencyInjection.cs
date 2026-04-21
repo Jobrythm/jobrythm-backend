@@ -22,6 +22,7 @@ public static class DependencyInjection
         services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
         services.Configure<StripeOptions>(configuration.GetSection("Stripe"));
         services.Configure<ResendOptions>(configuration.GetSection("Resend"));
+        services.Configure<AppConfig>(configuration.GetSection("AppConfig"));
 
         services.AddScoped<IJobRepository, JobRepository>();
         services.AddScoped<IClientRepository, ClientRepository>();

@@ -61,8 +61,8 @@ builder.Services.AddAuthentication(options =>
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = jwtSettings.Issuer,
-            ValidAudience = jwtSettings.Audience,
+            ValidIssuers = jwtSettings.ValidIssuers,
+            ValidAudiences = jwtSettings.ValidAudiences,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
         };
     });
@@ -79,11 +79,14 @@ builder.Services.AddAutoMapper(cfg => cfg.AddMaps(typeof(Jobrythm.Application.IA
 builder.Services.AddValidatorsFromAssembly(typeof(Jobrythm.Application.IApplicationMarker).Assembly);
 
 // CORS
+var appConfig = builder.Configuration.GetSection("AppConfig").Get<AppConfig>()
+    ?? throw new InvalidOperationException("AppConfig is missing");
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("Frontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "https://app.jobrythm.com")
+        policy.WithOrigins(appConfig.ClientUrls)
             .AllowAnyHeader()
             .AllowAnyMethod();
     });

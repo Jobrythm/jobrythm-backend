@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Jobrythm.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2a60fb5dce608b37c4109217516cd356c54b2f59")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b1f61bd10b0cbcb5aa3a0fb8a314f1812d9a1a27")]
 [assembly: System.Reflection.AssemblyProductAttribute("Jobrythm.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Jobrythm.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

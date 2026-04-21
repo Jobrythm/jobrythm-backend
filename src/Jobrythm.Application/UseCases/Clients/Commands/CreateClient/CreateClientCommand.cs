@@ -33,6 +33,15 @@ public class CreateClientCommandHandler(
         await clientRepository.AddAsync(client, ct);
         await clientRepository.SaveChangesAsync(ct);
 
-        return mapper.Map<ClientDto>(client);
+        return new ClientDto(
+            client.Id,
+            client.Name,
+            client.Email,
+            client.Phone,
+            client.Address,
+            0,
+            0,
+            client.CreatedAt,
+            client.UpdatedAt);
     }
 }

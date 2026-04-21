@@ -18,7 +18,7 @@ public class JobConfiguration : IEntityTypeConfiguration<Job>
         builder.Ignore(x => x.MarginAmount);
         builder.Ignore(x => x.MarginPercent);
 
-        builder.HasOne<ApplicationUser>()
+        builder.HasOne(x => x.User)
             .WithMany(u => u.Jobs)
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);

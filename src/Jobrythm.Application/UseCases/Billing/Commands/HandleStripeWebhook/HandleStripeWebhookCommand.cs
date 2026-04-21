@@ -1,13 +1,14 @@
-﻿using MediatR;
+﻿using Jobrythm.Application.Interfaces;
+using MediatR;
 
 namespace Jobrythm.Application.UseCases.Billing.Commands.HandleStripeWebhook;
 
 public record HandleStripeWebhookCommand(string Json, string Signature) : IRequest;
 
-public class HandleStripeWebhookCommandHandler : IRequestHandler<HandleStripeWebhookCommand>
+public class HandleStripeWebhookCommandHandler(IStripeService stripeService) : IRequestHandler<HandleStripeWebhookCommand>
 {
-    public Task Handle(HandleStripeWebhookCommand request, CancellationToken ct)
+    public async Task Handle(HandleStripeWebhookCommand request, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        await stripeService.HandleWebhookAsync(request.Json, request.Signature, ct);
     }
 }

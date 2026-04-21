@@ -509,7 +509,7 @@ POST /api/billing/portal
     }
   Notes: User must already have a Stripe customer ID (i.e. previously checked out).
 
-POST /api/stripe/webhook
+POST /api/webhooks/stripe
   Stripe webhook receiver — do NOT call this from the frontend.
   Stripe calls this automatically. Handles subscription updates/deletions.
   Requires correct Stripe-Signature header (set in Stripe dashboard).

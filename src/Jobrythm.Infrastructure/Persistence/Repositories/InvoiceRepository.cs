@@ -19,7 +19,6 @@ public class InvoiceRepository : IInvoiceRepository
     {
         return await _context.Invoices
             .Include(i => i.Job)
-            .ThenInclude(j => j.Client)
             .FirstOrDefaultAsync(i => i.Id == id, cancellationToken);
     }
 
@@ -41,7 +40,6 @@ public class InvoiceRepository : IInvoiceRepository
         var totalCount = await query.CountAsync(cancellationToken);
         var items = await query
             .Include(i => i.Job)
-            .ThenInclude(j => j.Client)
             .OrderByDescending(i => i.CreatedAt)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)

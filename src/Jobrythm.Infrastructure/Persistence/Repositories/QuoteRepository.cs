@@ -19,7 +19,6 @@ public class QuoteRepository : IQuoteRepository
     {
         return await _context.Quotes
             .Include(q => q.Job)
-            .ThenInclude(j => j.Client)
             .FirstOrDefaultAsync(q => q.Id == id, cancellationToken);
     }
 
@@ -41,7 +40,6 @@ public class QuoteRepository : IQuoteRepository
         var totalCount = await query.CountAsync(cancellationToken);
         var items = await query
             .Include(q => q.Job)
-            .ThenInclude(j => j.Client)
             .OrderByDescending(q => q.CreatedAt)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)

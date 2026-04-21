@@ -1,6 +1,5 @@
 using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.RateLimiting;
 using FluentValidation;
 using Microsoft.AspNetCore.RateLimiting;
 using Jobrythm.Api.Middleware;
@@ -44,7 +43,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<JobrythmDbContext>()
     .AddDefaultTokenProviders();
 
-// JWT
 var jwtSettings = builder.Configuration.GetSection("JwtSettings").Get<JwtSettings>() 
     ?? throw new InvalidOperationException("JwtSettings is missing");
 
@@ -138,7 +136,7 @@ using (var scope = app.Services.CreateScope())
             EmailConfirmed = true
         };
         // Use PasswordHasher directly so the seed password bypasses complexity validators
-        admin.PasswordHash = new Microsoft.AspNetCore.Identity.PasswordHasher<ApplicationUser>()
+        admin.PasswordHash = new PasswordHasher<ApplicationUser>()
             .HashPassword(admin, "adminpassword");
         await userManager.CreateAsync(admin);
     }

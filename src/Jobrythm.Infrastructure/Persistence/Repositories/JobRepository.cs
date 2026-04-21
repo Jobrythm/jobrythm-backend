@@ -23,7 +23,6 @@ public class JobRepository : IJobRepository
     public async Task<Job?> GetByIdWithDetailsAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _context.Jobs
-            .Include(j => j.Client)
             .Include(j => j.LineItems)
             .Include(j => j.Quote)
             .Include(j => j.Invoice)

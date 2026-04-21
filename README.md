@@ -10,11 +10,15 @@ Professional Job Management SaaS for small businesses and tradespeople.
 ## Quick Start (Docker)
 1. Ensure Docker is running.
 2. Run `docker compose up -d --build` from the root directory.
-3. API will be available at [http://localhost:5000](http://localhost:5000).
+3. API will be available at [http://localhost:8080](http://localhost:8080).
 4. pgAdmin will be available at [http://localhost:5050](http://localhost:5050) (Login: admin@jobrythm.com / admin).
+5. Frontend integration notes and endpoint usage live in [`api-endpoints.txt`](./api-endpoints.txt).
 
 ## Database Migrations
 When running via Docker, migrations are applied automatically on startup in Development environment.
+The development seed creates a default admin user:
+- Email: `admin@example.com`
+- Password: `adminpassword`
 To apply manually:
 ```bash
 dotnet ef database update --project src/Jobrythm.Infrastructure --startup-project src/Jobrythm.Api

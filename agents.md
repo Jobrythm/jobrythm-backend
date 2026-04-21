@@ -25,3 +25,10 @@ This document describes the agents and their responsibilities within the Jobryth
 
 ## Future Agents (Infrastructure)
 The system is designed to be extensible. Infrastructure layer will be implemented to provide persistence (Entity Framework Core).
+
+## Current Operational Notes
+- Local and Docker HTTP traffic is served on `http://localhost:8080`.
+- The development seed admin user is `admin@example.com` / `adminpassword`.
+- Frontend-facing endpoint usage and request/response notes are documented in `api-endpoints.txt`.
+- The webhook receiver path is `POST /api/webhooks/stripe`.
+

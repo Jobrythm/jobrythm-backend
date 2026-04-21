@@ -13,7 +13,7 @@ public class ClientConfiguration : IEntityTypeConfiguration<Client>
         builder.Property(x => x.Email).HasMaxLength(256);
         builder.Property(x => x.Address).HasMaxLength(500);
 
-        builder.HasOne<ApplicationUser>()
+        builder.HasOne(x => x.User)
             .WithMany(u => u.Clients)
             .HasForeignKey(x => x.UserId)
             .OnDelete(DeleteBehavior.Cascade);

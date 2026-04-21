@@ -1,4 +1,3 @@
-﻿using Jobrythm.Application.Exceptions;
 using Jobrythm.Application.Interfaces;
 using Jobrythm.Domain.Entities;
 using MediatR;
@@ -14,7 +13,8 @@ public record LogoutCommand : IRequest
 }
 
 public class LogoutCommandHandler(
-    UserManager<ApplicationUser> userManager) : IRequestHandler<LogoutCommand>
+    UserManager<ApplicationUser> userManager,
+    IJwtTokenService jwtTokenService) : IRequestHandler<LogoutCommand>
 {
     public async Task Handle(LogoutCommand request, CancellationToken ct)
     {
@@ -22,14 +22,14 @@ public class LogoutCommandHandler(
             .Include(u => u.RefreshTokens)
             .FirstOrDefaultAsync(u => u.Id == request.UserId, ct);
 
-        if (user != null)
+        if (user == null) return;
+
+        var tokenHash = jwtTokenService.HashToken(request.RefreshToken);
+        var token = user.RefreshTokens.FirstOrDefault(t => t.TokenHash == tokenHash);
+        if (token != null)
         {
-            var token = user.RefreshTokens.FirstOrDefault(t => t.TokenHash == "HASHED_TOKEN");
-            if (token != null)
-            {
-                user.RefreshTokens.Remove(token);
-                await userManager.UpdateAsync(user);
-            }
+            user.RefreshTokens.Remove(token);
+            await userManager.UpdateAsync(user);
         }
     }
 }

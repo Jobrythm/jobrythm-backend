@@ -1,0 +1,592 @@
+================================================================================
+  JOBRYTHM API — ENDPOINT REFERENCE
+  Base URL: http://<host>:8080
+  All protected endpoints require:
+    Authorization: Bearer <accessToken>
+================================================================================
+
+--------------------------------------------------------------------------------
+  AUTH  (no auth required unless noted)
+  Rate limit: 10 requests per minute per IP
+--------------------------------------------------------------------------------
+
+POST /api/auth/register
+  Register a new user account.
+  Body (JSON):
+    {
+      "email": "user@example.com",
+      "password": "SecurePass1!",
+      "fullName": "Jane Smith",
+      "companyName": "Acme Ltd"        // optional
+    }
+  Response 201:
+    {
+      "accessToken": "<jwt>",
+      "refreshToken": "<token>",
+      "expiresAt": "2025-01-01T01:00:00Z",
+      "userId": "<guid-string>",
+      "email": "user@example.com",
+      "fullName": "Jane Smith"
+    }
+  Notes:
+    - Password must be 8+ chars, upper, lower, digit, and special char.
+    - Default admin account: email=admin@example.com  password=adminpassword
+
+POST /api/auth/login
+  Authenticate and receive tokens.
+  Body (JSON):
+    {
+      "email": "user@example.com",
+      "password": "SecurePass1!"
+    }
+  Response 200: same shape as /register response.
+
+POST /api/auth/refresh
+  Exchange a refresh token for a new access token.
+  Body (JSON):
+    {
+      "userId": "<userId from login>",
+      "refreshToken": "<refreshToken from login>"
+    }
+  Response 200: same shape as /register response.
+
+POST /api/auth/logout
+  🔒 Requires auth.
+  Revoke the current refresh token.
+  Body (JSON):
+    {
+      "refreshToken": "<refreshToken>"
+    }
+  Response 204: No Content.
+
+--------------------------------------------------------------------------------
+  USERS  🔒 All require auth
+--------------------------------------------------------------------------------
+
+GET /api/users/me
+  Get the current user's profile.
+  Response 200:
+    {
+      "id": "<userId>",
+      "email": "user@example.com",
+      "fullName": "Jane Smith",
+      "companyName": "Acme Ltd",        // nullable
+      "companyAddress": "123 Main St",  // nullable
+      "logoUrl": "/uploads/.../logo.png", // nullable
+      "defaultVatRate": 20.0,
+      "subscriptionStatus": "Starter"   // "Starter" | "Pro" | "Team"
+    }
+
+PUT /api/users/me
+  Update the current user's profile.
+  Body (JSON):
+    {
+      "fullName": "Jane Smith",
+      "companyName": "Acme Ltd",         // optional
+      "companyAddress": "123 Main St",   // optional
+      "defaultVatRate": 20.0,
+      "defaultPaymentTerms": "Net 30",   // optional
+      "defaultQuoteValidityDays": 30
+    }
+  Response 204: No Content.
+
+POST /api/users/me/logo
+  Upload a company logo (multipart/form-data).
+  Field: file  (jpg, jpeg, png, or webp — max 5 MB)
+  Response 200: plain string — the URL to the uploaded file.
+    e.g. "/uploads/<userId>/logo.png"
+
+--------------------------------------------------------------------------------
+  CLIENTS  🔒 All require auth
+  Clients are scoped per user — you only see your own.
+--------------------------------------------------------------------------------
+
+GET /api/clients
+  List clients with optional search and pagination.
+  Query params:
+    search   (string, optional) — filter by name or email
+    page     (int, default 1)
+    pageSize (int, default 10)
+  Response 200:
+    {
+      "items": [
+        {
+          "id": "<guid>",
+          "name": "John Doe",
+          "email": "john@example.com",   // nullable
+          "phone": "+447700900000",       // nullable
+          "address": "456 High St",       // nullable
+          "jobCount": 3,
+          "totalRevenue": 150000,         // pence/cents integer
+          "createdAt": "...",
+          "updatedAt": "..."
+        }
+      ],
+      "totalCount": 42,
+      "pageNumber": 1,
+      "pageSize": 10,
+      "totalPages": 5,
+      "hasNextPage": true,
+      "hasPrevPage": false
+    }
+
+GET /api/clients/{id}
+  Get a single client by GUID.
+  Response 200: ClientDto (see above, single object).
+  Response 404 if not found.
+
+POST /api/clients
+  Create a new client.
+  Body (JSON):
+    {
+      "name": "John Doe",          // required
+      "email": "john@example.com", // optional
+      "phone": "+447700900000",    // optional
+      "address": "456 High St"     // optional
+    }
+  Response 201: ClientDto with Location header.
+
+PUT /api/clients/{id}
+  Update a client. The id in the URL must match command.id in the body.
+  Body (JSON):
+    {
+      "id": "<guid>",
+      "name": "John Doe Updated",
+      "email": "john@example.com",
+      "phone": "+447700900000",
+      "address": "456 High St"
+    }
+  Response 204: No Content.
+
+DELETE /api/clients/{id}
+  Delete a client. Fails with 409 if the client has any jobs.
+  Response 204: No Content.
+  Response 409: Conflict — "Cannot delete client with existing jobs."
+
+--------------------------------------------------------------------------------
+  JOBS  🔒 All require auth
+  Jobs are scoped per user. Monetary values stored as pence/cents (integers).
+--------------------------------------------------------------------------------
+
+GET /api/jobs
+  List jobs with optional filters.
+  Query params:
+    status   (enum, optional) — Draft|Quoted|Active|Completed|Invoiced
+    search   (string, optional) — filter by title or description
+    page     (int, default 1)
+    pageSize (int, default 10)
+  Response 200: PagedResult<JobDto>
+    {
+      "items": [
+        {
+          "id": "<guid>",
+          "clientId": "<guid>",
+          "clientName": "John Doe",
+          "title": "Roof Repair",
+          "description": "...",           // nullable
+          "status": "Draft",
+          "startDate": "2025-06-01T00:00:00Z", // nullable
+          "endDate": "2025-06-10T00:00:00Z",   // nullable
+          "totalCost": 50000,             // pence — sum of line items cost
+          "totalRevenue": 80000,          // pence — sum of line items price
+          "marginPercent": 37.5,
+          "lineItems": [...],
+          "quote": null,                  // nullable QuoteDto
+          "invoice": null,                // nullable InvoiceDto
+          "createdAt": "...",
+          "updatedAt": "..."
+        }
+      ],
+      "totalCount": 10,
+      "pageNumber": 1,
+      "pageSize": 10,
+      "totalPages": 1,
+      "hasNextPage": false,
+      "hasPrevPage": false
+    }
+
+GET /api/jobs/{id}
+  Get a single job with all details (line items, quote, invoice).
+  Response 200: JobDto (see above).
+  Response 404 if not found.
+
+POST /api/jobs
+  Create a new job.
+  Body (JSON):
+    {
+      "clientId": "<guid>",            // required — must be one of your clients
+      "title": "Roof Repair",          // required
+      "description": "...",            // optional
+      "startDate": "2025-06-01",       // optional ISO 8601
+      "endDate": "2025-06-10"          // optional ISO 8601
+    }
+  Response 201: JobDto with Location header.
+
+PUT /api/jobs/{id}
+  Update a job. The id in the URL must match command.id in the body.
+  Body (JSON):
+    {
+      "id": "<guid>",
+      "clientId": "<guid>",
+      "title": "Roof Repair Updated",
+      "description": "...",
+      "startDate": "2025-06-01",
+      "endDate": "2025-06-10"
+    }
+  Response 204: No Content.
+
+PATCH /api/jobs/{id}/status
+  Update only the job status.
+  Body (JSON):
+    {
+      "status": "Active"    // Draft|Quoted|Active|Completed|Invoiced
+    }
+  Response 204: No Content.
+
+DELETE /api/jobs/{id}
+  Delete a job and all its line items, quote and invoice.
+  Response 204: No Content.
+
+--------------------------------------------------------------------------------
+  LINE ITEMS  🔒 All require auth
+  Nested under a job. Monetary values are pence/cents (integers).
+  e.g. £10.00 = 1000
+--------------------------------------------------------------------------------
+
+POST /api/jobs/{jobId}/lineitems
+  Add a line item to a job.
+  Body (JSON):
+    {
+      "jobId": "<guid>",                // must match URL param
+      "description": "Labour",          // required
+      "category": "Labour",             // Labour|Materials|Equipment|Subcontract|Other
+      "quantity": 8,
+      "unit": "hours",                  // optional label
+      "unitCost": 2000,                 // pence per unit (your cost)
+      "unitPrice": 3500                 // pence per unit (what you charge)
+    }
+  Response 200: LineItemDto
+    {
+      "id": "<guid>",
+      "jobId": "<guid>",
+      "description": "Labour",
+      "category": "Labour",
+      "quantity": 8,
+      "unit": "hours",
+      "unitCost": 2000,
+      "unitPrice": 3500,
+      "totalCost": 16000,
+      "totalPrice": 28000,
+      "marginPercent": 42.86,
+      "createdAt": "...",
+      "updatedAt": "..."
+    }
+
+PUT /api/jobs/{jobId}/lineitems/{id}
+  Update a line item. jobId and id in URL must match body.
+  Body (JSON):
+    {
+      "id": "<guid>",
+      "jobId": "<guid>",
+      "description": "Labour",
+      "category": "Labour",
+      "quantity": 10,
+      "unit": "hours",
+      "unitCost": 2000,
+      "unitPrice": 3500
+    }
+  Response 200: LineItemDto (updated).
+
+DELETE /api/jobs/{jobId}/lineitems/{id}
+  Remove a line item.
+  Response 204: No Content.
+
+--------------------------------------------------------------------------------
+  QUOTES  🔒 All require auth
+  One quote per job. Numbers stored as pence/cents integers.
+--------------------------------------------------------------------------------
+
+GET /api/quotes
+  List all quotes for the current user.
+  Query params:
+    search   (string, optional)
+    page     (int, default 1)
+    pageSize (int, default 10)
+  Response 200: PagedResult<QuoteDto>
+    {
+      "items": [
+        {
+          "id": "<guid>",
+          "jobId": "<guid>",
+          "quoteNumber": "QT-abc123",
+          "status": "Draft",            // Draft|Sent|Accepted|Rejected|Expired
+          "validUntil": "2025-07-01T00:00:00Z", // nullable
+          "notes": "...",               // nullable
+          "terms": "...",               // nullable
+          "totalNet": 80000,            // pence
+          "vatRate": 20,
+          "vatAmount": 16000,           // pence
+          "totalGross": 96000,          // pence
+          "sentAt": null,               // nullable
+          "acceptedAt": null,           // nullable
+          "createdAt": "...",
+          "updatedAt": "..."
+        }
+      ],
+      ...pagination fields...
+    }
+
+GET /api/quotes/{id}
+  Get a single quote by GUID.
+  Response 200: QuoteDto.
+
+POST /api/jobs/{jobId}/quotes
+  Create a quote for a job. The job must not already have a quote.
+  Body (JSON):
+    {
+      "jobId": "<guid>",               // must match URL param
+      "vatRate": 20,                   // percent, default 20
+      "validUntil": "2025-07-01",      // optional ISO 8601
+      "notes": "Payment due on delivery" // optional
+    }
+  Notes: totalNet / vatAmount / totalGross are calculated from the job's line items.
+  Response 201: QuoteDto with Location header.
+
+PUT /api/quotes/{id}
+  Update an existing quote. id in URL must match body.
+  Body (JSON):
+    {
+      "id": "<guid>",
+      "validUntil": "2025-07-15",
+      "notes": "Updated notes",
+      "terms": "Net 30",
+      "totalNet": 80000,
+      "vatRate": 20,
+      "vatAmount": 16000,
+      "totalGross": 96000
+    }
+  Response 204: No Content.
+
+GET /api/quotes/{id}/pdf
+  Download a PDF of the quote.
+  Response 200: application/pdf stream.
+    Content-Disposition: attachment; filename="Quote_QT-abc123.pdf"
+
+POST /api/quotes/{id}/send
+  Send the quote to the client via email and mark status as Sent.
+  Response 204: No Content.
+  Notes: Requires Resend API key configured. Client must have an email address.
+
+--------------------------------------------------------------------------------
+  INVOICES  🔒 All require auth
+  One invoice per job. Numbers stored as pence/cents integers.
+--------------------------------------------------------------------------------
+
+GET /api/invoices
+  List all invoices for the current user.
+  Query params:
+    search   (string, optional)
+    page     (int, default 1)
+    pageSize (int, default 10)
+  Response 200: PagedResult<InvoiceDto>
+    {
+      "items": [
+        {
+          "id": "<guid>",
+          "jobId": "<guid>",
+          "invoiceNumber": "INV-ABC123",
+          "status": "Draft",            // Draft|Sent|Paid|Overdue|Cancelled
+          "dueDate": "2025-08-01T00:00:00Z", // nullable
+          "notes": "...",               // nullable
+          "terms": "...",               // nullable
+          "totalNet": 80000,            // pence
+          "vatRate": 20,
+          "vatAmount": 16000,           // pence
+          "totalGross": 96000,          // pence
+          "sentAt": null,               // nullable
+          "paidAt": null,               // nullable
+          "createdAt": "...",
+          "updatedAt": "..."
+        }
+      ],
+      ...pagination fields...
+    }
+
+GET /api/invoices/{id}
+  Get a single invoice by GUID.
+  Response 200: InvoiceDto.
+
+POST /api/jobs/{jobId}/invoices
+  Create an invoice for a job. The job must not already have an invoice.
+  Body (JSON):
+    {
+      "jobId": "<guid>",               // must match URL param
+      "dueDate": "2025-08-01",         // optional ISO 8601
+      "notes": "Payment due within 30 days", // optional
+      "terms": "Net 30",               // optional
+      "totalNet": 80000,               // pence
+      "vatRate": 20,
+      "vatAmount": 16000,              // pence
+      "totalGross": 96000              // pence
+    }
+  Response 201: InvoiceDto with Location header.
+
+PUT /api/invoices/{id}
+  Update an invoice. id in URL must match body.
+  Body (JSON):
+    {
+      "id": "<guid>",
+      "dueDate": "2025-08-15",
+      "notes": "Updated notes",
+      "terms": "Net 30",
+      "totalNet": 80000,
+      "vatRate": 20,
+      "vatAmount": 16000,
+      "totalGross": 96000
+    }
+  Response 204: No Content.
+
+PATCH /api/invoices/{id}/paid
+  Mark an invoice as paid (sets status=Paid, records paidAt timestamp).
+  Response 200: InvoiceDto (updated).
+
+GET /api/invoices/{id}/pdf
+  Download a PDF of the invoice.
+  Response 200: application/pdf stream.
+    Content-Disposition: attachment; filename="Invoice_INV-ABC123.pdf"
+
+POST /api/invoices/{id}/send
+  Send the invoice to the client via email and mark status as Sent.
+  Response 204: No Content.
+  Notes: Requires Resend API key configured. Client must have an email address.
+
+--------------------------------------------------------------------------------
+  DASHBOARD  🔒 Requires auth
+--------------------------------------------------------------------------------
+
+GET /api/dashboard
+  Aggregated stats for the current user.
+  Response 200:
+    {
+      "totalJobs": 12,
+      "activeJobs": 4,
+      "totalClients": 7,
+      "totalRevenue": 4800.00,   // £ (converted from pence)
+      "totalCost": 2200.00,
+      "totalMargin": 2600.00,
+      "pendingQuotes": 2,        // quotes with status=Sent
+      "overdueInvoices": 1
+    }
+
+--------------------------------------------------------------------------------
+  BILLING (Stripe)  🔒 All require auth
+  Requires Stripe API key to be configured in appsettings / environment.
+--------------------------------------------------------------------------------
+
+POST /api/billing/checkout
+  Create a Stripe Checkout session to subscribe.
+  Body (JSON):
+    {
+      "priceId": "price_xxx",          // Stripe price ID (Pro or Team plan)
+      "successUrl": "https://app.jobrythm.com/billing/success",
+      "cancelUrl": "https://app.jobrythm.com/billing/cancel"
+    }
+  Response 200:
+    {
+      "url": "https://checkout.stripe.com/..."
+    }
+  Notes: Redirect the user to this URL to complete payment.
+
+POST /api/billing/portal
+  Create a Stripe Customer Portal session to manage subscription.
+  Body (JSON):
+    {
+      "returnUrl": "https://app.jobrythm.com/settings"
+    }
+  Response 200:
+    {
+      "url": "https://billing.stripe.com/..."
+    }
+  Notes: User must already have a Stripe customer ID (i.e. previously checked out).
+
+POST /api/stripe/webhook
+  Stripe webhook receiver — do NOT call this from the frontend.
+  Stripe calls this automatically. Handles subscription updates/deletions.
+  Requires correct Stripe-Signature header (set in Stripe dashboard).
+
+--------------------------------------------------------------------------------
+  AUTHENTICATION FLOW (summary for frontend)
+--------------------------------------------------------------------------------
+
+1. Call POST /api/auth/register or POST /api/auth/login
+   → Store accessToken + refreshToken + userId in memory / secure storage.
+
+2. For every protected request, add header:
+   Authorization: Bearer <accessToken>
+
+3. When you get a 401, call POST /api/auth/refresh with userId + refreshToken
+   → Replace stored accessToken + refreshToken with the new values.
+
+4. On logout, call POST /api/auth/logout with the refreshToken, then clear storage.
+
+--------------------------------------------------------------------------------
+  COMMON ERROR SHAPES
+--------------------------------------------------------------------------------
+
+All errors return RFC 7807 Problem Details (application/json):
+  {
+    "status": 400,
+    "title": "Bad Request",
+    "detail": "User with this email already exists.",
+    "instance": "/api/auth/register",
+    "traceId": "00-abc..."
+  }
+
+Validation errors (422) also include:
+  {
+    ...
+    "errors": {
+      "Email": ["'Email' must not be empty."],
+      "Password": ["Minimum length is 8."]
+    }
+  }
+
+HTTP status codes used:
+  200  OK
+  201  Created
+  204  No Content
+  400  Bad Request       (invalid input, business rule violation)
+  401  Unauthorized      (missing / invalid / expired JWT)
+  403  Forbidden         (authenticated but accessing another user's resource)
+  404  Not Found
+  409  Conflict          (duplicate quote/invoice, client has jobs, etc.)
+  422  Unprocessable     (FluentValidation errors)
+  429  Too Many Requests (auth rate limit — 10 req/min)
+  500  Internal Server Error
+
+--------------------------------------------------------------------------------
+  NOTES ON MONETARY VALUES
+--------------------------------------------------------------------------------
+
+All monetary amounts (prices, costs, totals) are stored and returned as integers
+representing the smallest currency unit (pence for GBP, cents for USD, etc.).
+
+  Examples:
+    £10.00  =  1000
+    £99.99  =  9999
+    £0.50   =    50
+
+Divide by 100 when displaying to the user.
+Send values multiplied by 100 when posting.
+
+--------------------------------------------------------------------------------
+  NOTES ON ENUMS (sent/received as strings)
+--------------------------------------------------------------------------------
+
+JobStatus:      Draft | Quoted | Active | Completed | Invoiced
+QuoteStatus:    Draft | Sent | Accepted | Rejected | Expired
+InvoiceStatus:  Draft | Sent | Paid | Overdue | Cancelled
+LineItemCategory: Labour | Materials | Equipment | Subcontract | Other
+SubscriptionPlan: Starter | Pro | Team
+
+================================================================================

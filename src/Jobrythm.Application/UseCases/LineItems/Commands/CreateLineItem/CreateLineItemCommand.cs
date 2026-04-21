@@ -42,6 +42,7 @@ public class CreateLineItemCommandHandler(
         };
 
         await lineItemRepository.AddAsync(lineItem, ct);
+        await lineItemRepository.SaveChangesAsync(ct);
         return mapper.Map<LineItemDto>(lineItem);
     }
 }

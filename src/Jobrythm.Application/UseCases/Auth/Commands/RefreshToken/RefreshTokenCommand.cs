@@ -1,4 +1,4 @@
-﻿using Jobrythm.Application.DTOs;
+using Jobrythm.Application.DTOs;
 using Jobrythm.Application.Exceptions;
 using Jobrythm.Application.Interfaces;
 using Jobrythm.Domain.Entities;
@@ -23,15 +23,15 @@ public class RefreshTokenCommandHandler(
         if (user == null)
             throw new UnauthorizedException();
 
-        // Simplified token validation for now
-        var storedToken = user.RefreshTokens.FirstOrDefault(t => t.TokenHash == "HASHED_TOKEN");
+        var tokenHash = jwtTokenService.HashToken(request.RefreshToken);
+        var storedToken = user.RefreshTokens.FirstOrDefault(t => t.TokenHash == tokenHash);
         if (storedToken == null || storedToken.ExpiresAt < DateTime.UtcNow)
             throw new UnauthorizedException();
 
         var accessToken = jwtTokenService.GenerateAccessToken(user);
         var newRefreshToken = jwtTokenService.GenerateRefreshToken();
 
-        storedToken.TokenHash = "NEW_HASHED_TOKEN";
+        storedToken.TokenHash = jwtTokenService.HashToken(newRefreshToken);
         storedToken.ExpiresAt = DateTime.UtcNow.AddDays(7);
         await userManager.UpdateAsync(user);
 

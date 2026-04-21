@@ -40,7 +40,7 @@ public class RegisterCommandHandler(
 
         user.RefreshTokens.Add(new Domain.Entities.RefreshToken
         {
-            TokenHash = "HASHED_TOKEN",
+            TokenHash = jwtTokenService.HashToken(refreshToken),
             ExpiresAt = DateTime.UtcNow.AddDays(7),
             CreatedAt = DateTime.UtcNow
         });

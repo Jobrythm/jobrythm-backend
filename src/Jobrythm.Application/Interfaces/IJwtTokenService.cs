@@ -9,4 +9,7 @@ public interface IJwtTokenService
 
     /// <summary>Returns the user ID extracted from an expired access token (for refresh flows).</summary>
     string? GetUserIdFromExpiredToken(string accessToken);
+
+    /// <summary>Returns a SHA-256 hex hash of the given token, used for safe storage.</summary>
+    string HashToken(string token);
 }

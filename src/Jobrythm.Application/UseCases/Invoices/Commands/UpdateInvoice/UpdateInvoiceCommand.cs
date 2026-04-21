@@ -1,4 +1,7 @@
-﻿using Jobrythm.Application.DTOs;
+using AutoMapper;
+using Jobrythm.Application.DTOs;
+using Jobrythm.Application.Exceptions;
+using Jobrythm.Application.Interfaces;
 using MediatR;
 
 namespace Jobrythm.Application.UseCases.Invoices.Commands.UpdateInvoice;
@@ -15,10 +18,24 @@ public record UpdateInvoiceCommand : IRequest
     public long TotalGross { get; init; }
 }
 
-public class UpdateInvoiceCommandHandler : IRequestHandler<UpdateInvoiceCommand>
+public class UpdateInvoiceCommandHandler(
+    IInvoiceRepository invoiceRepository,
+    ICurrentUserService currentUserService) : IRequestHandler<UpdateInvoiceCommand>
 {
-    public Task Handle(UpdateInvoiceCommand request, CancellationToken ct)
+    public async Task Handle(UpdateInvoiceCommand request, CancellationToken ct)
     {
-        throw new NotImplementedException();
+        var invoice = await invoiceRepository.GetByIdAsync(request.Id, ct);
+        if (invoice == null) throw new NotFoundException(nameof(invoice), request.Id);
+        if (invoice.Job.UserId != currentUserService.UserId) throw new ForbiddenException();
+
+        invoice.DueDate = request.DueDate;
+        invoice.Notes = request.Notes;
+        invoice.Terms = request.Terms;
+        invoice.TotalNet = request.TotalNet;
+        invoice.VatRate = request.VatRate;
+        invoice.VatAmount = request.VatAmount;
+        invoice.TotalGross = request.TotalGross;
+
+        await invoiceRepository.SaveChangesAsync(ct);
     }
 }

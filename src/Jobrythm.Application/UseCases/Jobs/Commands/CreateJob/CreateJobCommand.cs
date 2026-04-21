@@ -41,7 +41,7 @@ public class CreateJobCommandHandler(
         };
 
         await jobRepository.AddAsync(job, ct);
-        // await jobRepository.SaveChangesAsync(ct); // Repository should handle save changes or unit of work
+        await jobRepository.SaveChangesAsync(ct);
 
         return mapper.Map<JobDto>(job);
     }

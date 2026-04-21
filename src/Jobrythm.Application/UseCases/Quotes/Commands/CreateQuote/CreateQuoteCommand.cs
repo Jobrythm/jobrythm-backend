@@ -54,6 +54,7 @@ public class CreateQuoteCommandHandler(
         };
 
         await quoteRepository.AddAsync(quote, ct);
+        await quoteRepository.SaveChangesAsync(ct);
         return mapper.Map<QuoteDto>(quote);
     }
 }

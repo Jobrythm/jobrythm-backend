@@ -24,7 +24,7 @@ public class LoginCommandHandler(
 
         user.RefreshTokens.Add(new Domain.Entities.RefreshToken
         {
-            TokenHash = "HASHED_TOKEN", // Hashing should happen in service
+            TokenHash = jwtTokenService.HashToken(refreshToken),
             ExpiresAt = DateTime.UtcNow.AddDays(7),
             CreatedAt = DateTime.UtcNow
         });

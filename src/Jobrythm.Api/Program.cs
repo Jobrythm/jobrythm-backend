@@ -119,12 +119,29 @@ builder.Services.AddRateLimiter(options =>
 
 var app = builder.Build();
 
-// Migrations
-if (app.Environment.IsDevelopment())
+// Migrations and seed
+using (var scope = app.Services.CreateScope())
 {
-    using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<JobrythmDbContext>();
     await db.Database.MigrateAsync();
+
+    // Seed default admin user
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    const string adminEmail = "admin@example.com";
+    if (await userManager.FindByEmailAsync(adminEmail) == null)
+    {
+        var admin = new ApplicationUser
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+            FullName = "Admin",
+            EmailConfirmed = true
+        };
+        // Use PasswordHasher directly so the seed password bypasses complexity validators
+        admin.PasswordHash = new Microsoft.AspNetCore.Identity.PasswordHasher<ApplicationUser>()
+            .HashPassword(admin, "adminpassword");
+        await userManager.CreateAsync(admin);
+    }
 }
 
 // Middleware
@@ -144,7 +161,6 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCors("Frontend");
 app.UseRateLimiter();

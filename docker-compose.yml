@@ -9,12 +9,18 @@
       - "5000:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
       - ConnectionStrings__DefaultConnection=Host=jobrythm-db;Database=jobrythm;Username=postgres;Password=postgres
-      - JwtSettings__Key=A_VERY_SECRET_KEY_THAT_IS_LONG_ENOUGH_FOR_HMACSHA256
-      - JwtSettings__Issuer=https://api.jobrythm.com
-      - JwtSettings__Audience=https://app.jobrythm.com
-      - AppConfig__BaseUrl=https://api.jobrythm.com
-      - AppConfig__ClientUrl=https://app.jobrythm.com
+      - JwtSettings__Secret=A_VERY_SECRET_KEY_THAT_IS_LONG_ENOUGH_FOR_HMACSHA256
+      - JwtSettings__ValidIssuers__0=https://api.jobrythm.com
+      - JwtSettings__ValidIssuers__1=https://api.jobrythm.aricummings.com
+      - JwtSettings__ValidAudiences__0=https://app.jobrythm.com
+      - JwtSettings__ValidAudiences__1=https://app.jobrythm.aricummings.com
+      - AppConfig__BaseUrls__0=https://api.jobrythm.com
+      - AppConfig__BaseUrls__1=https://api.jobrythm.aricummings.com
+      - AppConfig__ClientUrls__0=http://localhost:5173
+      - AppConfig__ClientUrls__1=https://app.jobrythm.com
+      - AppConfig__ClientUrls__2=https://app.jobrythm.aricummings.com
     depends_on:
       jobrythm-db:
         condition: service_healthy

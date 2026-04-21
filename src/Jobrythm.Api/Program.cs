@@ -151,6 +151,27 @@ app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.MapGet("/", () => Results.Content(@"
+<html>
+<head>
+    <title>Jobrythm API Status</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f2f5; }
+        .card { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        .status-up { color: #28a745; font-weight: bold; }
+        h1 { margin-top: 0; }
+    </style>
+</head>
+<body>
+    <div class='card'>
+        <h1>Jobrythm API</h1>
+        <p>Status: <span class='status-up'>Online</span></p>
+        <p>Version: 1.0.0</p>
+        <p>Environment: " + app.Environment.EnvironmentName + @"</p>
+        <p><a href='/scalar/v1'>API Documentation</a></p>
+    </div>
+</body>
+</html>", "text/html"));
 
 try
 {

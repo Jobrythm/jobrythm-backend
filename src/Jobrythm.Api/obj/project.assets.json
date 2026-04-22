@@ -54,7 +54,8 @@
       "FluentValidation.DependencyInjectionExtensions/11.11.0": {
         "type": "package",
         "dependencies": {
-          "FluentValidation": "11.11.0"
+          "FluentValidation": "11.11.0",
+          "Microsoft.Extensions.Dependencyinjection.Abstractions": "2.1.0"
         },
         "compile": {
           "lib/netstandard2.1/FluentValidation.DependencyInjectionExtensions.dll": {
@@ -912,6 +913,19 @@
         },
         "runtime": {
           "lib/net10.0/Microsoft.EntityFrameworkCore.Relational.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions/2.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
             "related": ".xml"
           }
         }
@@ -3155,6 +3169,19 @@
         "microsoft.entityframeworkcore.relational.nuspec"
       ]
     },
+    "Microsoft.Extensions.DependencyInjection.Abstractions/2.1.0": {
+      "sha512": "8/CtASu80UIoyG+r8FstrmZW5GLtXxzoYpjj3jV0FKZCL5CiFgSH3pAmqut/dC68mu7N1bU6v0UtKKL3gCUQGQ==",
+      "type": "package",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/2.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
+        "microsoft.extensions.dependencyinjection.abstractions.2.1.0.nupkg.sha512",
+        "microsoft.extensions.dependencyinjection.abstractions.nuspec"
+      ]
+    },
     "Microsoft.Extensions.DependencyModel/10.0.0": {
       "sha512": "RFYJR7APio/BiqdQunRq6DB+nDB6nc2qhHr77mlvZ0q0BT8PubMXN7XicmfzCbrDE/dzhBnUKBRXLTcqUiZDGg==",
       "type": "package",
@@ -4261,19 +4288,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Ari Cummings\\.nuget\\packages\\": {}
+    "/home/aric/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Ari Cummings\\Documents\\GitHub\\buildr-backend\\src\\Jobrythm.Api\\Jobrythm.Api.csproj",
+      "projectUniqueName": "/home/aric/RiderProjects/jobrythm-backend/src/Jobrythm.Api/Jobrythm.Api.csproj",
       "projectName": "Jobrythm.Api",
-      "projectPath": "C:\\Users\\Ari Cummings\\Documents\\GitHub\\buildr-backend\\src\\Jobrythm.Api\\Jobrythm.Api.csproj",
-      "packagesPath": "C:\\Users\\Ari Cummings\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Ari Cummings\\Documents\\GitHub\\buildr-backend\\src\\Jobrythm.Api\\obj\\",
+      "projectPath": "/home/aric/RiderProjects/jobrythm-backend/src/Jobrythm.Api/Jobrythm.Api.csproj",
+      "packagesPath": "/home/aric/.nuget/packages/",
+      "outputPath": "/home/aric/RiderProjects/jobrythm-backend/src/Jobrythm.Api/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Ari Cummings\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/home/aric/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
@@ -4285,11 +4312,11 @@
         "net10.0": {
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\Users\\Ari Cummings\\Documents\\GitHub\\buildr-backend\\src\\Jobrythm.Application\\Jobrythm.Application.csproj": {
-              "projectPath": "C:\\Users\\Ari Cummings\\Documents\\GitHub\\buildr-backend\\src\\Jobrythm.Application\\Jobrythm.Application.csproj"
+            "/home/aric/RiderProjects/jobrythm-backend/src/Jobrythm.Application/Jobrythm.Application.csproj": {
+              "projectPath": "/home/aric/RiderProjects/jobrythm-backend/src/Jobrythm.Application/Jobrythm.Application.csproj"
             },
-            "C:\\Users\\Ari Cummings\\Documents\\GitHub\\buildr-backend\\src\\Jobrythm.Infrastructure\\Jobrythm.Infrastructure.csproj": {
-              "projectPath": "C:\\Users\\Ari Cummings\\Documents\\GitHub\\buildr-backend\\src\\Jobrythm.Infrastructure\\Jobrythm.Infrastructure.csproj"
+            "/home/aric/RiderProjects/jobrythm-backend/src/Jobrythm.Infrastructure/Jobrythm.Infrastructure.csproj": {
+              "projectPath": "/home/aric/RiderProjects/jobrythm-backend/src/Jobrythm.Infrastructure/Jobrythm.Infrastructure.csproj"
             }
           }
         }
@@ -4372,7 +4399,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/10.0.201/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

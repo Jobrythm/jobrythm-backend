@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Threading.RateLimiting;
 using FluentValidation;
 using Microsoft.AspNetCore.RateLimiting;
 using Jobrythm.Api.Middleware;
@@ -106,11 +107,16 @@ builder.Services.AddMemoryCache();
 // Rate Limiting
 builder.Services.AddRateLimiter(options =>
 {
-    options.AddFixedWindowLimiter("auth", opt =>
+    options.AddPolicy("auth", context =>
     {
-        opt.PermitLimit = 10;
-        opt.Window = TimeSpan.FromMinutes(1);
-        opt.QueueLimit = 0;
+        var remoteIp = context.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+
+        return RateLimitPartition.GetFixedWindowLimiter(remoteIp, _ => new FixedWindowRateLimiterOptions
+        {
+            PermitLimit = 10,
+            Window = TimeSpan.FromMinutes(1),
+            QueueLimit = 0
+        });
     });
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 });

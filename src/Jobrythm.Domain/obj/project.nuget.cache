@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "43z5elzaJCI=",
+  "dgSpecHash": "4ulkPNOe/Gk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Ari Cummings\\Documents\\GitHub\\buildr-backend\\src\\Jobrythm.Domain\\Jobrythm.Domain.csproj",
+  "projectFilePath": "/home/aric/RiderProjects/jobrythm-backend/src/Jobrythm.Domain/Jobrythm.Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
